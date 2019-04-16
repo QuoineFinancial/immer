@@ -4,6 +4,13 @@ cmake_policy(SET CMP0048 NEW) # enable project VERSION
 cmake_policy(SET CMP0056 NEW) # honor link flags in try_compile()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+include (HunterGate)
+HunterGate(
+        URL "https://github.com/ruslo/hunter/archive/v0.23.154.tar.gz"
+        SHA1 "d720f3775d4b896dab91f8249de04956e31804dd"
+)
+
+
 project(immer VERSION 0.5.0)
 
 if (NOT MSVC)
@@ -51,7 +58,8 @@ endif()
 
 find_package(Threads)
 find_package(BoehmGC)
-find_package(Boost 1.56 COMPONENTS ${immer_boost_components})
+hunter_add_package(Boost COMPONENTS ${immer_boost_components})
+find_package(Boost 1.56 CONFIG REQUIRED COMPONENTS ${immer_boost_components})
 
 find_program(CCACHE ccache)
 if (CCACHE)
